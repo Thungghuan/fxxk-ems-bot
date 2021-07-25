@@ -7,9 +7,15 @@ const bot = new Telegraf(token)
 bot.start((ctx) => ctx.reply('Hello'))
 bot.help((ctx) => ctx.reply('Help message'))
 bot.command('hello', (ctx) => ctx.reply('Hello'))
-bot.launch()
+bot.telegram.setWebhook(`https://fxxk-ems-bot.herokuapp.com/bot${token}`)
 
-// bot.telegram.setWebhook(`https://fxxk-ems-bot.herokuapp.com/bot${token}`)
+bot.launch({
+  webhook: {
+    hookPath: `/bot${token}`,
+    port: +process.env.PORT! || 5000
+  }
+})
+
 // bot.startWebhook(`/bot${token}`, null, 8000)
 
 // Enable graceful stop
