@@ -12,7 +12,7 @@ bot.help((ctx) => ctx.reply('Help message'))
 bot.command('hello', ctx => {
   let name = ctx.message.from.first_name
   if (ctx.message.from.last_name) {
-    name += ctx.message.from.last_name
+    name += ' ' + ctx.message.from.last_name
   }
   ctx.reply(`Hello, fucking ${name}`)
 })
