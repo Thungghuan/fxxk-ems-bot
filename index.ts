@@ -9,6 +9,10 @@ bot.start((ctx) => ctx.reply("Hello, I'm fxxk-ems-bot"))
 
 bot.help((ctx) => ctx.reply('Help message'))
 
+bot.command('hello', ctx => {
+  ctx.reply(`Hello, ${ctx.message.chat.id}, ${ctx.state.role}`)
+})
+
 bot.command('get_trail', ctx => {
   getCurrentProcess('EZ679019121CN', currentTrail => {
     const mailNum = currentTrail.mailNo
