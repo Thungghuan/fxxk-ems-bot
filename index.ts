@@ -95,6 +95,7 @@ ${despatchCity}  -->  ${destinationCity}
             `
               ctx.reply(response)
             } else {
+              const mail = alertIntervals.find(e => e.mailNum === mailNum)
               ctx.reply('Your fucking mail number is invalid')
               clearInterval(mail!.interval)
               ctx.reply(`Removed your alerter ${mailNum}`)
@@ -104,6 +105,7 @@ ${despatchCity}  -->  ${destinationCity}
           })
         }, duration)
       }
+      alertIntervals.push(newAlert)
     }
   }
 })
