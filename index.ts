@@ -165,7 +165,7 @@ bot.command('list_alert', ctx => {
   }
 })
 
-bot.telegram.setWebhook(`https://fxxk-ems-bot.herokuapp.com/bot${token}`)
+bot.telegram.setWebhook(`${process.env.BOT_HOST}/bot${token}`)
 bot.launch({
   webhook: {
     hookPath: `/bot${token}`,
