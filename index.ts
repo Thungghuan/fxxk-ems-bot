@@ -76,7 +76,7 @@ bot.command('add_trail_alert', ctx => {
     } else {
       const newAlert: AlertInterval = {
         mailNum,
-        interval: window.setInterval(() => {
+        interval: <any>setInterval(() => {
           getCurrentProcess(mailNum, currentTrail => {
             if (typeof currentTrail !== 'number') {
               const mailNum = currentTrail.mailNo
@@ -96,7 +96,7 @@ ${despatchCity}  -->  ${destinationCity}
               ctx.reply(response)
             } else {
               ctx.reply('Your fucking mail number is invalid')
-              window.clearInterval(mail!.interval)
+              clearInterval(mail!.interval)
               ctx.reply(`Removed your alerter ${mailNum}`)
             }
           }, err => {
@@ -117,7 +117,7 @@ bot.command('rm_trail_alert', ctx => {
     if (!mail) {
       ctx.reply(`No the alerter: mail ${mailNum}`)
     } else {
-      window.clearInterval(mail.interval)
+      clearInterval(mail.interval)
     }
   }
 })
