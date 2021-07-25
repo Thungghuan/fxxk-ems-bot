@@ -19,7 +19,7 @@ bot.help((ctx) => {
 help - get help message
 get_trail - get_trial [mail number] get your trail current process
 add_trail_alert - add_trail_alert [mail number] [duration = 3600000]
-rm_trail_alert - rm_trail_alert [mail number]
+rm_trail_alert - rm_trail_alert [index]
 list_alert - list all alerter
   `
   ctx.reply(helpMSG)
@@ -111,15 +111,16 @@ ${despatchCity}  -->  ${destinationCity}
 })
 
 bot.command('rm_trail_alert', ctx => {
-  const mailNum = ctx.message.text.split(' ')[1]
-  if (!mailNum) {
-    ctx.reply('What fucking mail number you are looking for???')
+  const index = +ctx.message.text.split(' ')[1]
+  if (!index) {
+    ctx.reply('What fucking alerter you want to remove???')
   } else {
-    const mail = alertIntervals.find(e => e.mailNum === mailNum)
+    const mail: AlertInterval = alertIntervals[index - 1]
     if (!mail) {
-      ctx.reply(`No this alerter: mail ${mailNum}`)
+      ctx.reply(`No this alerter`)
     } else {
       clearInterval(mail.interval)
+      alertIntervals.splice(index - 1, 1)
     }
   }
 })
