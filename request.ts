@@ -22,7 +22,7 @@ type ResultData = {
 
 type ResultError = {
   response: {
-    message: string
+    statusText: string
   }
 }
 

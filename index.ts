@@ -59,7 +59,7 @@ ${despatchCity}  -->  ${destinationCity}
         ctx.reply('Your fucking mail number is invalid')
       }
     }, err => {
-      ctx.reply(err.response.message)
+      ctx.reply(err.response.statusText)
     })
   }
 })
@@ -100,7 +100,7 @@ ${despatchCity}  -->  ${destinationCity}
               ctx.reply(`Removed your alerter ${mailNum}`)
             }
           }, err => {
-            ctx.reply(err.response.message)
+            ctx.reply(err.response.statusText)
           })
         }, duration)
       }
@@ -127,6 +127,10 @@ bot.command('list_alert', ctx => {
     return prev + `${i + 1}. ${curr}\n`
   })
   ctx.reply(alerts)
+})
+
+bot.command('stop', () => {
+  bot.stop('SIGINT')
 })
 
 bot.telegram.setWebhook(`https://fxxk-ems-bot.herokuapp.com/bot${token}`)
