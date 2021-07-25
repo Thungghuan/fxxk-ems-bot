@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon --watch *.ts --exec ts-node index.ts",
-    "start": "node index.js"
+    "start": "ts-node index.ts"
   },
   "keywords": [],
   "author": "",
