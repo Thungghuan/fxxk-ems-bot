@@ -1,6 +1,8 @@
 import { Telegraf } from 'telegraf'
 
-const bot = new Telegraf(process.env.BOT_TOKEN!)
+const token = process.env.BOT_TOKEN!
+
+const bot = new Telegraf(token)
 
 bot.start((ctx) => ctx.reply('Hello'))
 bot.help((ctx) => ctx.reply('Help message'))
