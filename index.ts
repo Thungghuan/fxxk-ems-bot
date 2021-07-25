@@ -19,27 +19,31 @@ bot.command('hello', ctx => {
 
 bot.command('get_trail', ctx => {
   const mailNum = ctx.message.text.split(' ')[1]
-
   if (!mailNum) {
     ctx.reply('What fucking mail number you are looking for???')
   } else {
     getCurrentProcess(mailNum, currentTrail => {
-      const mailNum = currentTrail.mailNo
-      const despatchCity = currentTrail.despatchCity
-      const destinationCity = currentTrail.destinationCity
-      const currentProcess = currentTrail.processingInstructions
-      const currentProcessType = currentTrail.opreateType
-      const updateTime = currentTrail.optime
-
-      const response = `
-  苹果ems邮件进度查询
-  邮件号：${mailNum}
-  ${despatchCity}  -->  ${destinationCity}
-  当前进度：${currentProcess}
-  处理类型：${currentProcessType}
-  最新更新时间：${updateTime}
-    `
-      ctx.reply(response)
+      if (typeof currentTrail !== 'number') {
+        const mailNum = currentTrail.mailNo
+        const despatchCity = currentTrail.despatchCity
+        const destinationCity = currentTrail.destinationCity
+        const currentProcess = currentTrail.processingInstructions
+        const currentProcessType = currentTrail.opreateType
+        const updateTime = currentTrail.optime
+        const response = `
+苹果ems邮件进度查询
+邮件号：${mailNum}
+${despatchCity}  -->  ${destinationCity}
+当前进度：${currentProcess}
+处理类型：${currentProcessType}
+最新更新时间：${updateTime}
+      `
+        ctx.reply(response)
+      } else {
+        ctx.reply('Your fucking mail number is invalid')
+      }
+    }, err => {
+      ctx.reply(err.response.message)
     })
   }
 })

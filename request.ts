@@ -20,13 +20,24 @@ type ResultData = {
   }
 }
 
-const getCurrentProcess = (mailNum: string, cb: (currentTrail: BasicTrail) => void) => {
+type ResultError = {
+  response: {
+    message: string
+  }
+}
+
+const getCurrentProcess = (mailNum: string, cb: (currentTrail: BasicTrail | number) => void, errHandler: (err: ResultError) => void) => {
   instance({
     url: `/getMailNoLastRoutes?mailNum=${mailNum}`,
     method: 'post'
   }).then((res: ResultData) => {
-    return res.data.trails[0][0]
+    if (res.data.trails.length > 0) {
+      return res.data.trails[0][0]
+    } else {
+      return 0
+    }
   }).then((currentTrail) => cb(currentTrail))
+    .catch(err => errHandler(err))
 }
 
 
