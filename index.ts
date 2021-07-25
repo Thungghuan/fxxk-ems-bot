@@ -7,7 +7,15 @@ const bot = new Telegraf(token)
 
 bot.start((ctx) => ctx.reply("Hello, I'm fxxk-ems-bot"))
 
-bot.help((ctx) => ctx.reply('Help message'))
+bot.help((ctx) => {
+  const helpMSG = `
+help - get help message
+get_trail - get_trial [mail number] get your trail current process
+add_trail_alert - add_trail_alert [mail number] [duration = 3600000]
+rm_trail_alert - rm_trail_alert [mail number]
+  `
+  ctx.reply(helpMSG)
+})
 
 bot.command('hello', ctx => {
   let name = ctx.message.from.first_name
