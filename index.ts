@@ -10,7 +10,11 @@ bot.start((ctx) => ctx.reply("Hello, I'm fxxk-ems-bot"))
 bot.help((ctx) => ctx.reply('Help message'))
 
 bot.command('hello', ctx => {
-  ctx.reply(`Hello, fucking ${ctx.message.from}`)
+  ctx.reply(`Hello, fucking ${ctx.message.from.username}`)
+})
+
+bot.command('message', ctx => {
+  ctx.reply(ctx.message.text)
 })
 
 bot.command('get_trail', ctx => {
