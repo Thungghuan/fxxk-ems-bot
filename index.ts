@@ -74,36 +74,38 @@ bot.command('add_trail_alert', ctx => {
     if (mail) {
       ctx.reply(`I already have an alerter for ${mailNum}`)
     } else {
-      const newAlert: AlertInterval = {
-        mailNum,
-        interval: <any>setInterval(() => {
-          getCurrentProcess(mailNum, currentTrail => {
-            if (typeof currentTrail !== 'number') {
-              const mailNum = currentTrail.mailNo
-              const despatchCity = currentTrail.despatchCity
-              const destinationCity = currentTrail.destinationCity
-              const currentProcess = currentTrail.processingInstructions
-              const currentProcessType = currentTrail.opreateType
-              const updateTime = currentTrail.optime
-              const response = `
+      const interval: number = <any>setInterval(() => {
+        getCurrentProcess(mailNum, currentTrail => {
+          if (typeof currentTrail !== 'number') {
+            const mailNum = currentTrail.mailNo
+            const despatchCity = currentTrail.despatchCity
+            const destinationCity = currentTrail.destinationCity
+            const currentProcess = currentTrail.processingInstructions
+            const currentProcessType = currentTrail.opreateType
+            const updateTime = currentTrail.optime
+            const response = `
 苹果ems邮件进度查询
 邮件号：${mailNum}
 ${despatchCity}  -->  ${destinationCity}
 当前进度：${currentProcess}
 处理类型：${currentProcessType}
 最新更新时间：${updateTime}
-            `
-              ctx.reply(response)
-            } else {
-              const mail = alertIntervals.find(e => e.mailNum === mailNum)
-              ctx.reply('Your fucking mail number is invalid')
-              clearInterval(mail!.interval)
-              ctx.reply(`Removed your alerter ${mailNum}`)
-            }
-          }, err => {
-            ctx.reply(err.response.statusText)
-          })
-        }, duration)
+          `
+            ctx.reply(response)
+          } else {
+            const mail = alertIntervals.find(e => e.mailNum === mailNum)
+            ctx.reply('Your fucking mail number is invalid')
+            clearInterval(mail!.interval)
+            ctx.reply(`Removed your alerter ${mailNum}`)
+          }
+        }, err => {
+          ctx.reply(err.response.statusText)
+        })
+      }, duration)
+
+      const newAlert: AlertInterval = {
+        mailNum,
+        interval
       }
       alertIntervals.push(newAlert)
     }
