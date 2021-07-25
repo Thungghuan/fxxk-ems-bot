@@ -119,6 +119,7 @@ bot.command('rm_trail_alert', ctx => {
     if (!mail) {
       ctx.reply(`No this alerter`)
     } else {
+      ctx.reply(`Remove alert: mail ${mail.mailNum}`)
       clearInterval(mail.interval)
       alertIntervals.splice(index - 1, 1)
     }
