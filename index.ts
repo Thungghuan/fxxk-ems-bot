@@ -115,7 +115,7 @@ bot.command('rm_trail_alert', ctx => {
   } else {
     const mail = alertIntervals.find(e => e.mailNum === mailNum)
     if (!mail) {
-      ctx.reply(`No the alerter: mail ${mailNum}`)
+      ctx.reply(`No this alerter: mail ${mailNum}`)
     } else {
       clearInterval(mail.interval)
     }
@@ -127,10 +127,6 @@ bot.command('list_alert', ctx => {
     return prev + `${i + 1}. ${curr}\n`
   })
   ctx.reply(alerts)
-})
-
-bot.command('stop', () => {
-  bot.stop('SIGINT')
 })
 
 bot.telegram.setWebhook(`https://fxxk-ems-bot.herokuapp.com/bot${token}`)

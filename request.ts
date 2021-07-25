@@ -26,7 +26,7 @@ type ResultError = {
   }
 }
 
-const getCurrentProcess = (mailNum: string, cb: (currentTrail: BasicTrail | number) => void, errHandler: (err: ResultError) => void) => {
+const getCurrentProcess = (mailNum: string, cb: (currentTrail: BasicTrail | number) => void, errHandler?: (err: ResultError) => void) => {
   instance({
     url: `/getMailNoLastRoutes?mailNum=${mailNum}`,
     method: 'post'
@@ -37,7 +37,7 @@ const getCurrentProcess = (mailNum: string, cb: (currentTrail: BasicTrail | numb
       return 0
     }
   }).then((currentTrail) => cb(currentTrail))
-    .catch(err => errHandler(err))
+    // .catch(err => errHandler(err))
 }
 
 
