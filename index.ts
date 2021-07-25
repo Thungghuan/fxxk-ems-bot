@@ -125,10 +125,14 @@ bot.command('rm_trail_alert', ctx => {
 })
 
 bot.command('list_alert', ctx => {
-  const alerts = alertIntervals.map(e => e.mailNum).reduce((prev, curr, i) => {
-    return prev + `${i + 1}. ${curr}\n`
-  })
-  ctx.reply(alerts)
+  if (alertIntervals.length > 0) {
+    const alerts = alertIntervals.map(e => e.mailNum).reduce((prev, curr, i) => {
+      return prev + `${i + 1}. ${curr}\n`
+    }, '\n')
+    ctx.reply(alerts)
+  } else {
+    ctx.reply('No alert now')
+  }
 })
 
 bot.telegram.setWebhook(`https://fxxk-ems-bot.herokuapp.com/bot${token}`)
