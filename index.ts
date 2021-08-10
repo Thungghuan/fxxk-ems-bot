@@ -1,5 +1,5 @@
 import { Telegraf } from 'telegraf'
-import { getCurrentProcess } from './request'
+import { getCurrentProcess, getSFMailProcess } from './request'
 
 type AlertInterval = {
   mailNum: string,
@@ -21,6 +21,7 @@ get_trail - get_trial [mail number] get your trail current process
 add_trail_alert - add_trail_alert [mail number] [duration = 3600000]
 rm_trail_alert - rm_trail_alert [index]
 list_alert - list all alerter
+get_SFMail - get_SFMail [mail number] get your SFMail current process
   `
   ctx.reply(helpMSG)
 })
@@ -60,6 +61,37 @@ ${despatchCity}  -->  ${destinationCity}
       }
     }, err => {
       ctx.reply(err.response.statusText)
+    })
+  }
+})
+
+bot.command('get_SFMail', ctx => {
+  const mailNum = ctx.message.text.split(' ')[1]
+  if (!mailNum) {
+    ctx.reply('What fucking mail number you are looking for???')
+  } else {
+    getSFMailProcess(mailNum, (res) => {
+      let response = ''
+      if (res.data.success) {
+        const currentMail = res.data.result.routes[0]
+        const mailNum = currentMail.id
+        const despatchCity = currentMail.origin
+        const destinationCity = currentMail.destination
+        const currentProcess = currentMail.routes.reverse()[0].remark
+        const updateTime = currentMail.routes[0].scanDateTime
+        response = `
+顺丰快件进度查询
+邮件号：${mailNum}
+${despatchCity}  -->  ${destinationCity}
+当前进度：${currentProcess}
+最新更新时间：${updateTime}
+`
+      } else {
+        if (res.data.message === '用户未登录') {
+          response = 'ERROR 请及时更新Cookie'
+        }
+      }
+      ctx.reply(response)
     })
   }
 })

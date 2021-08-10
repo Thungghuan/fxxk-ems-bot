@@ -26,7 +26,11 @@ type ResultError = {
   }
 }
 
-const getCurrentProcess = (mailNum: string, cb: (currentTrail: BasicTrail | number) => void, errHandler?: (err: ResultError) => void) => {
+const getCurrentProcess = (
+  mailNum: string,
+  cb: (currentTrail: BasicTrail | number) => void,
+  errHandler?: (err: ResultError) => void
+) => {
   instance({
     url: `/getMailNoLastRoutes?mailNum=${mailNum}`,
     method: 'post'
@@ -40,7 +44,24 @@ const getCurrentProcess = (mailNum: string, cb: (currentTrail: BasicTrail | numb
     // .catch(err => errHandler(err))
 }
 
+const session = process.env.SF_SESSION!
+
+const getSFMailProcess = (
+  mailNum: string,
+  cb: (res: any) => void
+) => {
+  instance({
+    baseURL: 'https://www.sf-express.com/sf-service-core-web/service',
+    url: `/waybillRoute/${mailNum}/routes?lang=sc&region=cn`,
+    headers: {
+      Cookie: "SESSION=" + session
+    }
+  }).then(res => {
+    cb(res)
+  })
+}
 
 export {
-  getCurrentProcess
+  getCurrentProcess,
+  getSFMailProcess
 }
