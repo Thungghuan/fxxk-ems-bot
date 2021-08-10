@@ -1,4 +1,5 @@
 import { Telegraf } from 'telegraf'
+import axios from 'axios'
 import { getCurrentProcess, getSFMailProcess } from './request'
 
 type AlertInterval = {
@@ -197,6 +198,74 @@ bot.command('list_alert', ctx => {
   }
 })
 
+bot.command('add_sf_alert', ctx => {
+  const mailNum = ctx.message.text.split(' ')[1]
+  const duration = +ctx.message.text.split(' ')[2] || 3600000  // 1 hour default
+  if (!mailNum) {
+    ctx.reply('What fucking mail number you are looking for???')
+  } else {
+    const mail = alertIntervals.find(e => e.mailNum === mailNum)
+    if (mail) {
+      ctx.reply(`I already have an alerter for ${mailNum}`)
+    } else {
+      getSFMailProcess(mailNum, (res) => {
+        let response = ''
+        if (res.data.success) {
+          const currentMail = res.data.result.routes[0]
+          const mailNum = currentMail.id
+          const despatchCity = currentMail.origin
+          const destinationCity = currentMail.destination
+          const currentProcess = currentMail.routes.reverse()[0].remark
+          const updateTime = currentMail.routes[0].scanDateTime
+          response = `
+顺丰快件进度查询
+邮件号：${mailNum}
+${despatchCity}  -->  ${destinationCity}
+当前进度：${currentProcess}
+最新更新时间：${updateTime}
+`
+        } else {
+          if (res.data.message === '用户未登录') {
+            response = 'ERROR 请及时更新Cookie'
+          }
+        }
+        ctx.reply(response)
+      })
+      const interval: number = <any>setInterval(() => {
+        getSFMailProcess(mailNum, (res) => {
+          let response = ''
+          if (res.data.success) {
+            const currentMail = res.data.result.routes[0]
+            const mailNum = currentMail.id
+            const despatchCity = currentMail.origin
+            const destinationCity = currentMail.destination
+            const currentProcess = currentMail.routes.reverse()[0].remark
+            const updateTime = currentMail.routes[0].scanDateTime
+            response = `
+顺丰快件进度查询
+邮件号：${mailNum}
+${despatchCity}  -->  ${destinationCity}
+当前进度：${currentProcess}
+最新更新时间：${updateTime}
+`
+          } else {
+            if (res.data.message === '用户未登录') {
+              response = 'ERROR 请及时更新Cookie'
+            }
+          }
+          ctx.reply(response)
+        })
+      }, duration)
+
+      const newAlert: AlertInterval = {
+        mailNum,
+        interval
+      }
+      alertIntervals.push(newAlert)
+    }
+  }
+})
+
 bot.telegram.setWebhook(`${process.env.BOT_HOST}/bot${token}`)
 bot.launch({
   webhook: {
@@ -205,7 +274,13 @@ bot.launch({
   }
 })
 
-// bot.startWebhook(`/bot${token}`, null, 8000)
+setInterval(() => {
+  axios({
+    url: 'https://fxxk-ems-bot.herokuapp.com/'
+  }).finally(() => {
+    console.log('keep-alive in Heroku ', Date())
+  })
+}, 300000)
 
 // Enable graceful stop
 process.once('SIGINT', () => bot.stop('SIGINT'))
