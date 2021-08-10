@@ -23,6 +23,7 @@ add_trail_alert - add_trail_alert [mail number] [duration = 3600000]
 rm_trail_alert - rm_trail_alert [index]
 list_alert - list all alerter
 get_sf_Mail - get_sf_mail [mail number] get your SFMail current process
+add_sf_alert - add_sf_alert [mail number] [duration = 3600000]
   `
   ctx.reply(helpMSG)
 })
