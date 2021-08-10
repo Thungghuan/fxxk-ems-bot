@@ -32,10 +32,13 @@ $ npm start
 
 ## So why this bot?
 
-Few days ago, I bought MacBoos Air from Apple Store at its [back-to-school](https://www.apple.com.cn/cn-k12/shop/back-to-school) activity, but I still don't get it after 10 days.
+Few days ago, I bought MacBook Air from Apple Store at its [back-to-school](https://www.apple.com.cn/cn-k12/shop/back-to-school) activity, but I still don't get it after 10 days.
 
 And the trail message from ems updates very slow.
 
 In order to get the message periodically, I wrote this bot.
 
 > Actually, I just want to try to write a bot myself :)
+
+> OK, I finally get my M1 MacBook Air on Jul 26th.
+> This commit is updated by it.
