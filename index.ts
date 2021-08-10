@@ -65,7 +65,7 @@ ${despatchCity}  -->  ${destinationCity}
   }
 })
 
-bot.command('get_SFMail', ctx => {
+bot.command('get_sf_mail', ctx => {
   const mailNum = ctx.message.text.split(' ')[1]
   if (!mailNum) {
     ctx.reply('What fucking mail number you are looking for???')
