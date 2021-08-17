@@ -3,7 +3,9 @@ A telegram bot for getting trails data of **apple** ems, using [telegraf](https:
 
 > Only for the apple ems mail now!!!
 
-You can try it [here](http://t.me/fxxk_ems_bot)
+~~You can try it [here](http://t.me/fxxk_ems_bot)~~
+
+> The server of the bot was stoped after Aug 18th.
 
 But I think you will never use it
 
